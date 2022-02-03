@@ -11,4 +11,5 @@ interface AccountRepository: JpaRepository<Account, Long> {
 @Repository
 interface TransactionRepository: JpaRepository<Transaction, Long> {
 	fun findFirstByAccountOrderByIdDesc(account: Account):Transaction?
+	fun findByAccount(account: Account):List<Transaction>
 }

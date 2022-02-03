@@ -8,6 +8,7 @@ import org.fantacy.casino.domain.CreateAccountCommand
 import org.fantacy.casino.domain.CreateAccountDocument
 import org.fantacy.casino.domain.CreditAccountCommand
 import org.fantacy.casino.domain.DebitAccountCommand
+import org.fantacy.casino.domain.ListTransactionsQuery
 import org.fantacy.casino.domain.Transaction
 import org.fantacy.casino.domain.TransactionRepository
 import org.springframework.stereotype.Service
@@ -69,5 +70,16 @@ class WalletService(
 		transactionRepository.saveAndFlush(transaction)
 
 		return AccountBalanceDTO(account.id!!, transaction.balanceAfter)
+	}
+
+	fun listTransactions(query: ListTransactionsQuery):List<AccountBalanceDTO> {
+		val accounts = accountRepository.findByPlayerUid(query.playerUid)
+
+		return accounts.flatMap({ account ->
+			transactionRepository.findByAccount(account)
+		}).map { transaction ->
+			AccountBalanceDTO(transaction.account.id!!, transaction.balanceAfter)
+		}
+
 	}
 }
