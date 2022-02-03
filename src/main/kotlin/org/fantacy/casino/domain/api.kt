@@ -25,3 +25,9 @@ data class ListTransactionsQuery(
 	val playerUid: String)
 
 data class AccountBalanceDTO(val account: Long, val balance:BigDecimal)
+
+data class TransactionDTO(
+	val account:Long,
+	val direction:String,
+	val externalUid: String,
+	val amount:BigDecimal)

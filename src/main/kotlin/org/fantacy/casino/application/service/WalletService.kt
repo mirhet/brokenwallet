@@ -10,6 +10,7 @@ import org.fantacy.casino.domain.CreditAccountCommand
 import org.fantacy.casino.domain.DebitAccountCommand
 import org.fantacy.casino.domain.ListTransactionsQuery
 import org.fantacy.casino.domain.Transaction
+import org.fantacy.casino.domain.TransactionDTO
 import org.fantacy.casino.domain.TransactionRepository
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -45,6 +46,7 @@ class WalletService(
 		val transaction = Transaction(
 			null,
 			account,
+			"credit",
 			command.externalUid,
 			command.amount,
 			lastTransaction?.balanceAfter ?: BigDecimal.ZERO,
@@ -62,6 +64,7 @@ class WalletService(
 		val transaction = Transaction(
 			null,
 			account,
+			"debit",
 			command.externalUid,
 			command.amount,
 			lastTransaction?.balanceAfter ?: BigDecimal.ZERO,
@@ -72,13 +75,17 @@ class WalletService(
 		return AccountBalanceDTO(account.id!!, transaction.balanceAfter)
 	}
 
-	fun listTransactions(query: ListTransactionsQuery):List<AccountBalanceDTO> {
+	fun listTransactions(query: ListTransactionsQuery):List<TransactionDTO> {
 		val accounts = accountRepository.findByPlayerUid(query.playerUid)
 
 		return accounts.flatMap({ account ->
 			transactionRepository.findByAccount(account)
 		}).map { transaction ->
-			AccountBalanceDTO(transaction.account.id!!, transaction.balanceAfter)
+			TransactionDTO(
+				transaction.account.id!!,
+				transaction.direction,
+				transaction.externalUid,
+				transaction.amount)
 		}
 
 	}
