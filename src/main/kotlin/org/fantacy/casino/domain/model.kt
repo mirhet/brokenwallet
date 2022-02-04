@@ -1,6 +1,5 @@
 package org.fantacy.casino.domain
 
-import java.math.BigDecimal
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType.EAGER
@@ -38,6 +37,6 @@ data class Transaction(
 	val direction:String,
 	@Column(name = "external_uid")
 	val externalUid: String,
-	val amount:BigDecimal,
-	val balanceBefore:BigDecimal,
-	val balanceAfter: BigDecimal)
+	val amount:Double,
+	val balanceBefore:Double,
+	val balanceAfter: Double)

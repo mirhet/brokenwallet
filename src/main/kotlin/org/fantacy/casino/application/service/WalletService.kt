@@ -13,7 +13,6 @@ import org.fantacy.casino.domain.Transaction
 import org.fantacy.casino.domain.TransactionDTO
 import org.fantacy.casino.domain.TransactionRepository
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
 
 @Service
 class WalletService(
@@ -49,8 +48,8 @@ class WalletService(
 			"credit",
 			command.externalUid,
 			command.amount,
-			lastTransaction?.balanceAfter ?: BigDecimal.ZERO,
-			lastTransaction?.balanceAfter?.add(command.amount) ?: command.amount)
+			lastTransaction?.balanceAfter ?: 0.0,
+			lastTransaction?.balanceAfter?.plus(command.amount) ?: command.amount)
 
 		transactionRepository.saveAndFlush(transaction)
 
@@ -67,8 +66,8 @@ class WalletService(
 			"debit",
 			command.externalUid,
 			command.amount,
-			lastTransaction?.balanceAfter ?: BigDecimal.ZERO,
-			lastTransaction?.balanceAfter?.subtract(command.amount) ?: command.amount)
+			lastTransaction?.balanceAfter ?: 0.0,
+			lastTransaction?.balanceAfter?.minus(command.amount) ?: command.amount)
 
 		transactionRepository.saveAndFlush(transaction)
 
