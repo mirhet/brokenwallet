@@ -38,6 +38,7 @@ class WalletService(
 			}
 	}
 
+	// add money
 	fun creditAccount(command: CreditAccountCommand):AccountBalanceDTO {
 		val account = accountRepository.getById(command.account)
 		val lastTransaction = transactionRepository.findFirstByAccountOrderByIdDesc(account)
@@ -56,6 +57,7 @@ class WalletService(
 		return AccountBalanceDTO(account.id!!, transaction.balanceAfter)
 	}
 
+	// remove money
 	fun debitAccount(command: DebitAccountCommand): AccountBalanceDTO {
 		val account = accountRepository.getById(command.account)
 		val lastTransaction = transactionRepository.findFirstByAccountOrderByIdDesc(account)
