@@ -39,19 +39,11 @@ class WalletController(val walletService: WalletService) {
 
 	@PostMapping(path = ["/credit"])
 	fun creditAccount(@RequestBody command: CreditAccountCommand):AccountBalanceDTO {
-		if (command.externalUid.isNullOrEmpty()) {
-			throw ValidationException("externalUid must not be null or empty")
-		}
-
 		return walletService.creditAccount(command)
 	}
 
 	@PostMapping(path = ["/debit"])
 	fun debitAccount(@RequestBody command: DebitAccountCommand):AccountBalanceDTO {
-		if (command.externalUid.isNullOrEmpty()) {
-			throw ValidationException("externalUid must not be null or empty")
-		}
-
 		return walletService.debitAccount(command)
 	}
 
