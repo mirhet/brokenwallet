@@ -15,28 +15,30 @@ import javax.persistence.UniqueConstraint
 @Entity
 @Table(indexes = [Index(name = "playerUid_idx", columnList = "player_uid", unique = false)])
 data class Account(
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	val id:Long?,
-	@Column(name = "player_uid")
-	val playerUid:String)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    val id: Long?,
+    @Column(name = "player_uid")
+    val playerUid: String
+)
 
 @Entity
 @Table(
-	uniqueConstraints = [
-		UniqueConstraint(name = "account_externalUid_unq", columnNames = ["account_id", "external_uid"])
-	]
+    uniqueConstraints = [
+        UniqueConstraint(name = "account_externalUid_unq", columnNames = ["account_id", "external_uid"])
+    ]
 )
 data class Transaction(
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	val id:Long?,
-	@ManyToOne(optional = false, fetch = EAGER)
-	@JoinColumn(name = "account_id")
-	val account:Account,
-	val direction:String,
-	@Column(name = "external_uid")
-	val externalUid: String,
-	val amount:Double,
-	val balanceBefore:Double,
-	val balanceAfter: Double)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    val id: Long?,
+    @ManyToOne(optional = false, fetch = EAGER)
+    @JoinColumn(name = "account_id")
+    val account: Account,
+    val direction: String,
+    @Column(name = "external_uid")
+    val externalUid: String,
+    val amount: Double,
+    val balanceBefore: Double,
+    val balanceAfter: Double
+)
